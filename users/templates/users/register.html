@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <main class="row justify-content-center align-items-center h-100 w-100 bg-dark text-light m-0">
+        <div class="border border-light border-1 w-25 rounded-3">
+            <form class="p-xxl-3 w-100" action="{% url 'register' %}" method="post" id="register-form">
+                <h5 class="text-center">Registratsiya</h5>
+                {% csrf_token %}
+                <div>
+                    <label for="first_name">Ism: </label>
+                    <input type="text" name="first_name" id="first_name" class="form-control bg-dark text-light"
+                           autocomplete="off" required autofocus>
+                </div>
+                <div>
+                    <label for="last_name">Familiya: </label>
+                    <input type="text" name="last_name" id="last_name" class="form-control bg-dark text-light"
+                           autocomplete="off" required autofocus>
+                </div>
+                <div>
+                    <label for="email">E-mail: </label>
+                    <input type="email" name="email" id="email" class="form-control bg-dark text-light"
+                           autocomplete="off" required autofocus>
+                </div>
+                <div>
+                    <label for="password1">Parol: </label>
+                    <input type="password" name="password1" id="password1" class="form-control bg-dark text-light"
+                           autocomplete="off" required autofocus>
+                </div>
+                <div>
+                    <label for="password1">Parolni tasdiqlash: </label>
+                    <input type="password" name="password2" id="password2" class="form-control bg-dark text-light"
+                           autocomplete="off" required autofocus>
+                </div>
+
+                <small class="text-center w-100 d-block mt-xxl-1">Akkaunt allaqachon bormi ?
+                    <a href="{% url 'login' %}" class="text-decoration-none">
+                        Kirish
+                    </a>
+                </small>
+                <button class="btn btn-success w-100 d-block mt-3" id="register-btn" type="submit">Ro'yxatdan o'tish</button>
+            </form>
+        </div>
+    </main>
+
+    <link rel="stylesheet" href="{% static 'css/registration_responsive.css' %}">
+    <script type="text/javascript">
+        const formBtn = document.getElementById('register-btn');
+        //console.log(formBtn)
+        formBtn.addEventListener('click', (e) => {
+            e.preventDefault()
+
+            let form = document.getElementById('register-form');
+            let firstName = document.getElementById('first_name');
+            let lastName = document.getElementById('last_name');
+            let email = document.getElementById('email');
+            let password1 = document.getElementById('password1');
+            let password2 = document.getElementById('password2');
+            let token = document.querySelector('input[name="csrfmiddlewaretoken"]');
+
+            //console.log(firstName.value, lastName.value, email.value, password1.value, password2.value);
+            let fullName = firstName.value.toLowerCase() + lastName.value.toLowerCase();
+
+            form.innerHTML = `
+                <input name="csrfmiddlewaretoken" value="${token.value}" type="hidden">
+                <input name="first_name" value="${firstName.value}" type="hidden">
+                <input name="last_name" value="${lastName.value}" type="hidden">
+                <input name="username" value="${fullName}" type="hidden">
+                <input name="email" value="${email.value}" type="hidden">
+                <input name="password1" value="${password1.value}" type="hidden">
+                <input name="password2" value="${password2.value}" type="hidden">
+            `;
+            form.submit();
+        })
+    </script>
+
+{% endblock content %}

@@ -1,0 +1,85 @@
+{% load static %}
+<div class="nav--left p-0 m-0 h-100 col-xxl-3" id="sidebar">
+    <div class="p-xxl-3 m-0 h-100 position-relative bg-dark">
+        <a href="{% url 'home' %}" class="text-decoration-none">
+            <h3 class="text-xxl-center text-light m-xxl-0 p-xxl-0 border border-light border-1 pb-xxl-4"
+                id="sidebar-top-text">
+                IT Center Bagdad
+                <span class="d-none btn btn-close btn-close-white btn-sm float-end mt-1 me-2"
+                    id="sidebar-close-btn"></span>
+            </h3>
+        </a>
+        <div class="sidebar-buttons-parent p-0 m-0">
+            <a class="btn d-block btn-outline-light border-0 my-xxl-3 p-xxl-3 text-start"
+                href="{% url 'pupils_list' %}">
+                <i class="bi bi-person-lines-fill"></i>
+                O'quvchilar
+            </a>
+            <a class="btn d-block btn-outline-light border-0 my-xxl-3 p-xxl-3 text-start"
+                href="{% url 'teachers_list' %}">
+                <i class="bi bi-person-bounding-box"></i>
+                O'qituvchilar
+            </a>
+            <a class="btn d-block btn-outline-light border-0 my-xxl-3 p-xxl-3 text-start"
+                href="{% url 'groups_list' %}">
+                <i class="bi bi-people-fill"></i>
+                Guruhlar
+            </a>
+            <a class="btn d-block btn-outline-light border-0 my-xxl-3 p-xxl-3 text-start"
+                href="{% url 'subjects_list' %}">
+                <i class="bi bi-book-fill"></i>
+                Fanlar
+            </a>
+        </div>
+        <!-- Split dropend button -->
+        <div class="btn-group dropup sticky-bottom position-absolute bottom-0 left-0 mb-xxl-3" id="dropup">
+            <button type="button" class="btn btn-dark">
+                <i class="bi bi-person-circle"></i>
+                {{ request.user.first_name }} {{ request.user.last_name }}
+            </button>
+            <button type="button" class="btn btn-dark dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown"
+                aria-expanded="false">
+            </button>
+            <ul class="dropdown-menu dropdown-menu-dark">
+                <li>
+                    <a href="{% url 'logout' %}" class="dropdown-item">Chiqish</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<style>
+    #sidebar {
+        transition: 0.5s;
+    }
+
+    .nav--left {
+        border-right: 1px solid white;
+    }
+
+    #sidebar-top-text {
+        border-top: 0 !important;
+        border-left: 0 !important;
+        border-right: 0 !important;
+    }
+
+    .sidebar-buttons-parent a i {
+        margin-right: 10px;
+        font-size: 24px;
+    }
+
+    .sidebar-buttons-parent a:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+    }
+</style>
+<script type="text/javascript">
+    const sidebarCloseBtn = document.getElementById('sidebar-close-btn');
+    const sidebar = document.getElementById('sidebar');
+    sidebarCloseBtn.addEventListener('click', (e) => {
+        e.preventDefault()
+        sidebar.style.transform = 'translateX(100%)';
+        sidebar.style.display = 'none';
+    })
+</script>

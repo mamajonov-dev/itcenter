@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <main class="row justify-content-center align-items-center h-100 w-100 bg-dark text-light m-0">
+        <div class="border border-light border-1 rounded-3" style="width: 25%;">
+            <form class="p-xxl-3 w-100" action="{% url 'login' %}" method="post" id="login-form">
+                {% csrf_token %}
+                <div>
+                    <label for="email">E-mail: </label>
+                    <input class="form-control bg-dark text-light" type="email" name="email" id="email"
+                           placeholder="" autocomplete="off" required autofocus>
+                </div>
+                <div>
+                    <label for="password">Parol: </label>
+                    <input class="form-control bg-dark text-light" type="password" name="password" id="password"
+                           placeholder="" autocomplete="off" required autofocus>
+                </div>
+                <small class="text-center w-100 d-block mt-xxl-1">
+                    Akkaunt yo'qmi ?
+                    <a href="{% url 'register' %}" class="text-decoration-none">Ro'yxatdan o'tish</a>
+                </small>
+                <button class="btn btn-sm btn-success w-100 d-block mt-3" type="submit">Kirish</button>
+            </form>
+        </div>
+    </main>
+    <link rel="stylesheet" href="{% static 'css/login_responsive.css' %}">
+{% endblock content %}

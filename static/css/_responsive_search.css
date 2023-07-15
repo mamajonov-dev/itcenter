@@ -1,0 +1,25 @@
+@media (max-width: 425px) {
+    input.form-control, input.form-control:focus {
+        padding: 4px 7px;
+        font-size: 10px;
+        box-shadow: none;
+        border-radius: 5px;
+        width: 200px;
+    }
+
+    input.form-control::placeholder {
+        font-size: 7px;
+    }
+
+    .search-btn {
+        font-size: 10px;
+        margin: 0;
+        padding: 4px 7px;
+    }
+
+    .search-form {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+}

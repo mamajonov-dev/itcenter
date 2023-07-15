@@ -1,0 +1,241 @@
+{% extends 'base.html' %}
+{% load humanize static %}
+
+{% block content %}
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <main class="content row justify-content-between flex-row bg-dark p-0 m-0 w-100 h-100">
+
+        {% include 'components/_sidebar.html' %}
+
+        <div class="p-0 m-0 col-xxl-9 h-100 flex-column justify-content-start overflow-scroll">
+            <div class="m-0 p-0">
+                {% include 'components/_main-top.html' %}
+                <div class="content-counter-parent p-xxl-3">
+                    <div
+                            class="content-counter-box text-light text-start rounded-1 border border-1 border-light p-xxl-3 d-flex flex-row align-items-center justify-content-between w-100">
+                        Fanlar soni:
+                        <span>
+                        {{ dashboard.subjects.all }} ta
+                            {% if dashboard.subjects.new > 0 %}
+                                <span class="interest-rate">+{{ dashboard.subjects.new }}</span>
+                            {% endif %}
+                    </span>
+                    </div>
+                    <div
+                            class="content-counter-box text-light text-start rounded-1 border border-1 border-light p-xxl-3 d-flex flex-row align-items-center justify-content-between w-100">
+                        Guruhlar soni:
+                        <span>
+                        {{ dashboard.groups.all }} ta
+                            {% if dashboard.groups.new > 0 %}
+                                <span class="interest-rate">+{{ dashboard.groups.new }}</span>
+                            {% endif %}
+                    </span>
+                    </div>
+                    <div
+                            class="content-counter-box text-light text-start rounded-1 border border-1 border-light p-xxl-3 d-flex flex-row align-items-center justify-content-between w-100">
+                        O'qituvchilar soni:
+                        <span>
+                        {{ dashboard.teachers.all }} ta
+                            {% if dashboard.teachers.new > 0 %}
+                                <span class="interest-rate">+{{ dashboard.teachers.new }}</span>
+                            {% endif %}
+                    </span>
+                    </div>
+                    <div
+                            class="content-counter-box text-light text-start rounded-1 border border-1 border-light p-xxl-3 d-flex flex-row align-items-center justify-content-between w-100">
+                        O'quvchilar soni:
+                        <span>
+                        {{ dashboard.pupils.all }} ta
+                            {% if dashboard.pupils.new > 0 %}
+                                <span class="interest-rate">+{{ dashboard.pupils.new }}</span>
+                            {% endif %}
+                    </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="main-bottom text-light p-xxl-3 m-xxl-0">
+                <div class="buttons-group row m-0 p-0">
+                    {% if request.user.is_superuser %}
+                        <a class="text-decoration-none btn btn-outline-primary w-100 position-relative col"
+                           href="{% url 'add_subject' %}" style="width: 250px">
+                            <i class="bi bi-plus position-absolute"></i>
+                            <i class="bi bi-book-fill" style="margin-left: 13px;"></i>
+                            Fan qo'shish
+                        </a>
+                    {% endif %}
+                    <a class="text-decoration-none btn btn-outline-warning w-100 position-relative col"
+                       href="{% url 'add_group' %}" style="width: 250px;">
+                        <i class="bi bi-plus position-absolute"></i>
+                        <i class="bi bi-people-fill" style="margin-left: 13px;"></i>
+                        Guruh qo'shish
+                    </a>
+                    <a class="text-decoration-none btn btn-outline-success w-100 position-relative col"
+                       href="{% url 'add_pupil' %}" style="width: 250px;">
+                        <i class="bi bi-plus position-absolute"></i>
+                        <i class="bi bi-person-lines-fill" style="margin-left: 13px;"></i>
+                        O'quvchi qo'shish
+                    </a>
+                </div>
+                {% if request.user.is_superuser %}
+                    <div class="main-bottom-stats  mt-xxl-5 p-0 d-xxl-flex flex-xxl-row justify-content-xxl-around align-items-xxl-center">
+                        <div class="payment-info">
+                            <p>Umumiy tushum: <strong>{{ total_payed|intcomma }} so'm </strong></p>
+                            <p>Kutilayotgan tushum: <strong>{{ total_payment|intcomma }} so'm</strong></p>
+                            <p>To'liq to'lov qilganlar: <a class="text-decoration-none"
+                                                           href="{% url 'paid' %}">{{ paid_pupils_count }} ta</a></p>
+                            <p>Qisman yoki to'liq to'lov qilmaganlar: <a class="text-decoration-none"
+                                                                         href="{% url 'unpaid' %}">{{ unpaid_pupils_count }}
+                                ta</a></p>
+                        </div>
+                        <div class="payment-graph d-xxl-flex flex-xxl-column align-items-xxl-center">
+                            <div class="percent">
+                                <div class="dot"></div>
+                                <svg>
+                                    <circle cx="70" cy="70" r="70"></circle>
+                                    <circle cx="70" cy="70" r="70"></circle>
+                                </svg>
+                                <div class="number">
+                                    <strong class="m-0 p-0">
+                                        {% if total_payed_in_percent %}
+                                            {{ total_payed_in_percent|floatformat:"0" }}
+                                        {% else %}
+                                            0
+                                        {% endif %}
+                                    </strong>
+                                    <span>%</span>
+                                </div>
+                            </div>
+                            <p class="p-0 m-0 mt-xxl-2">
+                                <strong>{{ total_payed|intcomma }} / {{ total_payment|intcomma }}
+                                </strong>
+                            </p>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </main>
+    <style>
+        :root {
+            --clr: #04fc43;
+            --animation-time: 2s;
+            --payment-percent: {{ total_payed_in_percent|floatformat:"0" }};
+        }
+        .number {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            display: flex;
+            font-size: 24px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .number span {
+            font-size: 16px;
+        }
+
+        .dot {
+            position: absolute;
+            z-index: 10;
+            inset: 5px;
+            animation: animateDot var(--animation-time) ease-out forwards;
+        }
+
+        @keyframes animateDot {
+            0% {
+                transform: rotate(0);
+            }
+
+            100% {
+                transform: rotate(calc(3.6deg * var(--payment-percent)));
+            }
+        }
+
+        .dot::before {
+            content: '';
+            position: absolute;
+            top: -7px;
+            left: 50%;
+            width: 14px;
+            height: 14px;
+            background: var(--clr);
+            transform: translateX(-50%);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--clr), 0 0 30px var(--clr);
+        }
+
+        .percent {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .percent svg {
+            position: relative;
+            height: 150px;
+            width: 150px;
+            transform: rotate(270deg);
+        }
+
+        .percent svg circle {
+            height: 100%;
+            width: 100%;
+            fill: transparent;
+            stroke-width: 7;
+            stroke: rgba(255, 255, 255, .1);
+            transform: translate(5px, 5px);
+        }
+
+        .percent svg circle:nth-child(2) {
+            stroke: var(--clr);
+            stroke-dasharray: 440;
+            stroke-dashoffset: calc(440 - (440 * var(--payment-percent) / 100));
+            opacity: 0;
+            animation: animateCircle 1s ease-out forwards;
+            animation-delay: var(--animation-time);
+        }
+
+        @keyframes animateCircle {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .content-counter-parent {
+            display: grid;
+            grid-gap: 10px;
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        .content-counter-box {
+            font-size: 20px;
+            width: 250px;
+            position: relative;
+        }
+
+        .interest-rate {
+            color: green;
+            position: absolute;
+            right: 10px;
+            top: 0;
+            font-size: 12px;
+        }
+
+        .main-bottom .buttons-group {
+            grid-gap: 10px;
+        }
+    </style>
+    <link rel="stylesheet" href="{% static 'css/responsive_index.css' %}">
+
+{% endblock content %}

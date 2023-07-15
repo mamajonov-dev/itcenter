@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block content %}
+
+    <main class="content row justify-content-between flex-row bg-dark p-0 m-0 w-100 h-100">
+
+        {% include 'components/_sidebar.html' %}
+
+        <div class="p-xxl-0 m-xxl-0 col-xxl-9 h-100 flex-column justify-content-start overflow-scroll">
+            {% include 'components/_main-top.html' %}
+            <div class="p-xxl-3 m-xxl-0">
+                <div class="p-xxl-0 mb-xxl-3 d-flex flex-row justify-content-between">
+                    {% include 'components/_back_to_home_btn.html' %}
+                    {% include 'components/_search.html' with id='mainSearchForm' method='get' placeholder='Ism, familiya, guruh nomi' name='pupil' %}
+                </div>
+                <table class="table table-striped table-dark pupils_list">
+                    <thead>
+                    <tr>
+                        <th>№</th>
+                        <th>Ism va Familiyasi</th>
+                        <th>Guruh</th>
+                        <th>To'lov</th>
+                        <th class="text-end">O'zgartirish/To'lov</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for pupil in pupils %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ pupil.fullname }}</td>
+                            <td>{{ pupil.group }}</td>
+                            {% for payment in pupil.payments.all %}
+                                {% if payment.month == current_date and payment.group == pupil.group %}
+                                    {% if payment.amount == pupil.group.price %}
+                                        <td class="text-success">{{ payment.amount|intcomma }}
+                                            / {{ pupil.group.price|intcomma }}</td>
+                                    {% else %}
+                                        <td>{{ payment.amount|intcomma }} / {{ pupil.group.price|intcomma }}</td>
+                                    {% endif %}
+                                {% endif %}
+                            {% empty %}
+                                <td>0 / {{ pupil.group.price|intcomma }}</td>
+                            {% endfor %}
+                            <td class="text-end">
+                                <a href="{% url 'update_pupil' pk=pupil.id %}"
+                                   class="btn btn-outline-warning">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+                                <a href="{% url 'create_payment' pk=pupil.id group_id=pupil.group.id %}"
+                                   class="btn btn-outline-success">
+                                    <i class="bi bi-credit-card"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                {% if search_query %}
+                    <span class="text-light text-center mt-xxl-3 d-block">
+                    <a href="{{ request.META.HTTP_REFERER }}"
+                       class="text-decoration-none">
+                        Filtrni tashlab yuborish: </a>
+                    "{{ search_query }}"
+                </span>
+                {% endif %}
+            </div>
+        </div>
+    </main>
+
+{% endblock content %}

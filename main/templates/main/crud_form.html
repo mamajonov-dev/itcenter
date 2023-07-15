@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <main class="content row justify-content-between flex-row bg-dark p-0 m-0 w-100 h-100">
+
+        {% include 'components/_sidebar.html' %}
+
+        <div class="p-xxl-0 m-xxl-0 col-xxl-9 h-100 flex-xxl-column justify-content-xxl-start overflow-scroll">
+            {% include 'components/_main-top.html' %}
+            <div class="p-xxl-3 m-xxl-0">
+                {% include 'components/_back_to_home_btn.html' %}
+                <form action="" method="post" class="w-50 mt-xxl-3" id="form">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        <div class="d-xxl-flex flex-xxl-column">
+                            <label class="text-light" for="id_{{ field.name }}">{{ field.label }}</label>
+                            {{ field }}
+                        </div>
+                    {% endfor %}
+                    <button id="btn" class="btn btn-{{ btn_color }} d-block w-100 mt-3" type="submit">
+                        {{ btn_text }}
+                    </button>
+                </form>
+            </div>
+        </div>
+
+    </main>
+
+    <script type="text/javascript">
+        let inputFields = document.querySelectorAll('input');
+        if (inputFields) {
+            inputFields.forEach((inputField, index) => {
+                if (index === 1) {
+                    inputFields[index].focus()
+                }
+                inputField.addEventListener('keydown', (e) => {
+                    e.target.classList.remove('border-danger');
+                })
+                inputField.addEventListener('blur', (e) => {
+                    if (e.target.value.trim() === "") {
+                        e.target.classList.add('border-danger');
+                    } else {
+                        e.target.classList.remove('border-danger');
+                    }
+                })
+            })
+        }
+    </script>
+{% endblock content %}

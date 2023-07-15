@@ -1,0 +1,36 @@
+@media (max-width: 425px) {
+    .content {
+        position: relative;
+    }
+    #sidebar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        border: none;
+        z-index: 99;
+        transform: translateX(100%);
+        display: none;
+    }
+    #sidebar-top-text {
+        padding: 20px;
+        text-align: start;
+        margin: 0;
+    }
+    .sidebar-buttons-parent a {
+        padding: 5px 10px;
+        margin: 5px 10px;
+        font-size: 14px;
+    }
+    #dropup button {
+        font-size: 14px;
+        margin-bottom: 10px;
+    }
+    #dropup ul li a {
+        font-size: 14px;
+    }
+    #sidebar-close-btn {
+        display: block !important;
+    }
+}
+
+

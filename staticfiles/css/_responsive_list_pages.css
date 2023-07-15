@@ -1,0 +1,14 @@
+@media (max-width: 425px) {
+   th {
+       font-size: 10px;
+   }
+    td {
+        font-size: 8px;
+    }
+    td a.btn {
+        font-size: 8px;
+        padding: 5px 10px;
+        border-radius: 5px;
+        width: max-content;
+    }
+}

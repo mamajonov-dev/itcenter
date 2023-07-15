@@ -1,0 +1,22 @@
+{% load static %}
+<div class="text-start p-xxl-5 border border-light border-1 border-top-0 border-start-0 border-end-0">
+    <h3 class="text-light m-xxl-0 p-xxl-0" id="main-top-text">
+        {{ main_top_text }}
+        <button class="btn btn-sm float-end d-none p-0 me-2" id="burgerMenu">
+            <i class="bi bi-list-ul text-light" style="font-size: 18px;"></i>
+        </button>
+    </h3>
+</div>
+
+<script type="text/javascript">
+    const burgerMenu = document.getElementById('burgerMenu');
+    burgerMenu.addEventListener('click', (e) => {
+        e.preventDefault()
+        document.getElementById('sidebar').style = `
+            display: block;
+            transform: translateX(0);
+        `;
+    })
+</script>
+
+<link rel="stylesheet" href="{% static 'css/_responsive_main-top.css' %}">

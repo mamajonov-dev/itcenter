@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<main class="content row justify-content-between flex-row bg-dark p-0 m-0 w-100 h-100">
+    {% include 'components/_sidebar.html' %}
+
+    <div class="p-xxl-0 m-xxl-0 col-xxl-9 h-100 flex-column justify-content-start overflow-scroll">
+        {% include 'components/_main-top.html' %}
+        <div class="p-xxl-3 m-xxl-0">
+            <div class="p-xxl-0 mb-xxl-3 d-flex flex-row justify-content-between">
+                {% include 'components/_back_to_home_btn.html' %}
+                {% include 'components/_search.html' with method='get' id='mainSearchForm' name='subject' placeholder='Fan nomi' %}
+            </div>
+            <table class="table table-striped table-dark">
+                <thead>
+                    <tr>
+                        <th>№</th>
+                        <th>Fan nomi</th>
+                        {% if request.user.is_superuser %}
+                        <th class="text-end">O'zgartirish/O'chirish</th>
+                        {% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for subject in subjects %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>
+                            <a href="{% url 'subject_detail' pk=subject.id %}" class="text-decoration-none">
+                                {{ subject.name }}
+                            </a>
+                        </td>
+                        {% if request.user.is_superuser %}
+                        <td class="text-end" id="{{ subject.id }}">
+                            <a href="{% url 'update_subject' pk=subject.id %}" class="btn btn-outline-warning">
+                                <i class="bi bi-pencil-square"></i>
+                            </a>
+                            <a href="" class="btn btn-outline-danger" id="delete-btn"
+                                data-url="{% url 'subject_delete' %}?model=subject&name={{ subject.name }}&pk={{ subject.id }}"
+                                data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% if search_query %}
+            <span class="text-light text-center mt-xxl-3 d-block">
+                <a href="{{ request.META.HTTP_REFERER }}" class="text-decoration-none">
+                    Filtrni tashlab yuborish: </a>
+                "{{ search_query }}"
+            </span>
+            {% endif %}
+        </div>
+    </div>
+</main>
+
+{% endblock content %}

@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load static humanize %}
+
+{% block content %}
+
+    <main class="content row justify-content-between flex-row bg-dark p-0 m-0 w-100 h-100">
+        {% include 'components/_sidebar.html' %}
+        <div class="p-xxl-0 m-xxl-0 col-xxl-9 h-100 flex-xxl-column justify-content-xxl-start overflow-scroll">
+            {% include 'components/_main-top.html' %}
+            <div class="p-xxl-3 m-xxl-0">
+                {% include 'components/_back_to_home_btn.html' %}
+                <form action="" method="post" class="w-50 mt-xxl-3 d-xxl-grid gap-2" id="form">
+                    {% csrf_token %}
+                    <div class="d-xxl-flex flex-xxl-column position-relative p-0 m-0">
+                        <label class="text-light" for="id_pupil">O'quvchi:</label>
+                        <input class="form-control bg-dark text-secondary border-secondary" type="search" name="pupil"
+                               id="id_pupil"
+                               placeholder="O'quvchini tanlang ..." autocomplete="off" readonly value="{{ pupil }}"
+                               data-pupil="{{ pupil.id }}">
+                        <ul id="pupil-results" class="position-absolute w-100 bg-dark"></ul>
+                        <ul class="opacity-25 d-none">
+                            {% for pupil in pupils %}
+                                <li>
+                                    <div class="m-0 p-0" id="pupil">{{ pupil.fullname }}</div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="d-xxl-flex flex-xxl-column p-0 m-0">
+                        <label class="text-light" for="id_month">Oy:</label>
+                        <input class="form-control bg-dark text-light" type="month" name="month" id="id_month"
+                               min="2022-01"
+                               max="2023-12" value="{{ current_date }}" required>
+                    </div>
+                    <div class="d-xxl-flex flex-xxl-column p-0 m-0">
+                        <label for="id_group">Guruh:</label>
+                        <input class="form-control bg-dark text-secondary border-secondary" type="text" id="id_group"
+                               name="group"
+                               value="{{ group }}" readonly required>
+                    </div>
+                    <div class="d-xxl-flex flex-xxl-column p-0 m-0">
+                        <label class="text-light" for="id_amount">To'lov miqdori:</label>
+                        <input class="form-control bg-dark text-light"
+                               min="0"
+                               max="{{ max_amount }}" type="number"
+                               name="amount"
+                               value="{{ amount }}"
+                               autocomplete="off"
+                               id="id_amount"
+                               placeholder="Miqdorni kiriting" required autofocus>
+                        <div class="d-xxl-flex flex-xxl-row align-items-xxl-center mt-xxl-1">
+                            <button id="insert-payment" class="btn btn-sm text-light border-0" data-amount="{{ max_amount }}">
+                                To'liq to'lash
+                            </button>
+                            <small class="text-secondary ms-xxl-1">Maksimal to'lov: {{ max_amount|intcomma }}</small>
+                        </div>
+
+                    </div>
+                    <div class="d-xxl-flex flex-xxl-column p-0 m-0">
+                        <label class="text-light" for="id_note">Izoh:</label>
+                        <textarea class="form-control bg-dark text-light" name="note" id="id_note"
+                                  placeholder="Biron eslatma, bildirgi, izoh"></textarea>
+                    </div>
+                    <button id="payment-submit" type="submit" class="btn mt-3 d-block w-100 btn-success">To'lov qilish</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <link rel="stylesheet" href="{% static 'css/payment.css' %}">
+    <script type="text/javascript" src="{% static 'js/payment.js' %}"></script>
+
+{% endblock content %}

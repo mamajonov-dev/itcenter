@@ -1,0 +1,30 @@
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content bg-dark text-light">
+            <div class="modal-header">
+                <h6 class="modal-title" id="staticBackdropLabel">Qaroringiz qat'iymi ?</h6>
+                <button type="button" class="btn-close btn btn-sm btn-close-white" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="text-light" id="confirmation-text"></p>
+                <div class="d-flex flex-row justify-content-center">
+                    <!-- Loader start -->
+                    <div class="spinner-border text-light" id="confirmation-loader" role="status"></div>
+                    <!-- Loader end -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-outline-light" id="close-delete-modal"
+                    data-bs-dismiss="modal">Bekor qilish</button>
+                <button type="button" class="btn btn-sm btn-outline-danger" id="confirmation-btn" disabled>
+                    <i class="bi bi-trash"></i>
+                    <div class="spinner-border text-danger d-none" id="confirmation-loader"
+                        style="width: 15px; height: 15px;" role="status"></div>
+                    O'chirish
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <main class="content row justify-content-between flex-row bg-dark p-0 m-0 w-100 h-100">
+
+        {% include 'components/_sidebar.html' %}
+
+        <div class="p-xxl-0 m-xxl-0 col-xxl-9 h-100 flex-column justify-content-start overflow-scroll">
+            {% include 'components/_main-top.html' %}
+            <div class="p-xxl-3 m-xxl-0">
+                <div class="p-xxl-0 mb-xxl-3 d-flex flex-row justify-content-between">
+                    {% include 'components/_back_to_home_btn.html' %}
+                    {% include 'components/_search.html' with method='get' id='mainSearchForm' name='teacher' placeholder='Ism, familiya' %}
+                </div>
+                <table class="table table-striped table-dark">
+                    <thead>
+                    <tr>
+                        <th>№</th>
+                        <th>Ism va Familiyasi:</th>
+                        <th class="text-end">O'zgartirish</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for teacher in teachers %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ teacher.fullname }}</td>
+                            <td class="text-end">
+                                {% if request.user.is_superuser or teacher.user.id == request.user.id %}
+                                    <a href="{% url 'update_teacher' pk=teacher.id %}"
+                                       class="btn btn-outline-warning m-xxl-0">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                {% if search_query %}
+                    <span class="text-light text-center mt-xxl-3 d-block">
+                    <a href="{{ request.META.HTTP_REFERER }}"
+                       class="text-decoration-none">
+                        Filtrni tashlab yuborish: </a>
+                    "{{ search_query }}"
+                </span>
+                {% endif %}
+            </div>
+        </div>
+    </main>
+
+{% endblock content %}

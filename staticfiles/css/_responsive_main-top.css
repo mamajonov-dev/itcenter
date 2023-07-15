@@ -1,0 +1,10 @@
+@media (max-width: 425px) {
+    #main-top-text {
+        padding: 20px;
+        font-size: 18px;
+    }
+    #burgerMenu{
+        display: block !important;
+    }
+
+}

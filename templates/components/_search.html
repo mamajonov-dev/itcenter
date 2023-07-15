@@ -1,0 +1,8 @@
+{% load static %}
+<form method="{{ method }}" id="{{ id }}" action=""
+      class="m-xxl-0 p-xxl-0 d-xxl-flex flex-xxl-row w-50 search-form">
+    <input type="text" class="form-control bg-dark text-light w-100"
+           placeholder="{{ placeholder }}" name="{{ name }}" value="{{ search_query }}">
+    <button type="submit" class="search-btn btn btn-outline-light ms-2">Qidirish</button>
+</form>
+<link rel="stylesheet" href="{% static 'css/_responsive_search.css' %}">
